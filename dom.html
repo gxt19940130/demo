@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="MobileOptimized" content="320">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>test</title>
+    <link rel="stylesheet" href="css/mui.css">
+    <style type="text/css" media="screen">
+    * {
+
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .screen {
+        background: #ff5566;
+        color: white;
+        height: 800px;
+        text-align: center;
+        font-size: 50px;
+    }
+
+    ul {
+        list-style-type: none;
+        list-style-position: outside;
+    }
+    li {
+        float: left;
+        width: 100px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="screen">
+        <ul class="list-ul">
+        </ul>
+    </div>
+    <script type="text/javascript" src="js/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script>
+    $(function() {
+        var _li = $("<li>"),
+            _dom = $("<div>"),
+            _lis = document.getElementsByTagName("li"),
+            timer = null;
+        for (var i = 0; i < 50; i++) {
+            $(".list-ul").append(_li.clone());
+        }
+
+        function rolling() {
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                for (var i = 0; i < _lis.length; i++) {
+                    $(_lis[i]).html("").append(_dom.clone().html(getRandom())).append(_dom.clone().html(getRandom()));
+                }
+                rolling();
+            }, 10)
+        }
+
+        function getRandom() {
+            return Math.round(Math.random() * 100);
+        }
+        $(document).on('keyup', function(e) {
+            if (e.keyCode == 32) {
+                clearTimeout(timer);
+            } else {
+                rolling();
+            }
+        })
+    })
+    </script>
+</body>
+
+</html>
