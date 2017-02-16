@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="MobileOptimized" content="320">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>转盘抽奖</title>
+    <link rel="stylesheet" href="">
+    <style type="text/css" media="screen">
+    .parent {
+        position: relative;
+        top: 100px;
+    }
+    
+    .container {
+        position: absolute;
+        left: 11%;
+        right: 11%;
+        top: 5%;
+        bottom: 5%;
+    }
+    
+    .circle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 5s;
+    }
+    
+    .pointer {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <a href="">九宫格抽奖</a>
+        <a href="">文字滚动抽奖</a>
+        <div class="parent">
+            <div class="container">
+                <img class="circle" src="../img/rotate-bg.png" alt="" width="100%">
+                <img class="pointer" src="../img/rotate-pointer.png" alt="" width="100%">
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+    <script>
+    $(function() {
+        var rotate = 0,
+            timer = null,
+
+            hasAjax = false,
+            ajaxing = false,
+            rotating = false,
+
+            circle = $(".circle");
+
+        function circleAllTime(num) {
+            rotate += num;
+            circle.css({
+                '-webkit-transform': "rotate(" + rotate + "deg)",
+                transform: "rotate(" + rotate + "deg)"
+            });
+            rotating = true;
+        }
+        $(".pointer").on('click', function() {
+            if (rotating) return;
+            timer = setInterval(function() {
+                circleAllTime(360);
+            }, 60);
+            var code = parseInt(Math.random() * 5);
+            setTimeout(function() {
+                clearInterval(timer);
+                /* code : 对应奖品
+                 *  0   : 提额机会
+                 *  1   : 10元
+                 *  2   : 2元
+                 *  3   : 5元
+                 *  4   : 谢谢
+                 */
+                switch (code) {
+                    case 0:
+                        circleAllTime(360);
+                        break;
+                    case 1:
+                        circleAllTime(76);
+                        break;
+                    case 2:
+                        circleAllTime(219);
+                        break;
+                    case 3:
+                        circleAllTime(290);
+                        break;
+                    case 4:
+                    default:
+                        circleAllTime(147);
+                        break;
+                }
+            }, 1000);
+        })
+    })
+    </script>
+</body>
+
+</html>
