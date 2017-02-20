@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="MobileOptimized" content="320">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>转盘抽奖</title>
+    <link rel="stylesheet" href="">
+    <style type="text/css" media="screen">
+    * {
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    
+    body {
+        background: #f56;
+    }
+    
+    .parent {
+        position: relative;
+        margin-top: 100px;
+    }
+    
+    .container {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+    
+    .circle {
+        width: 95%;
+        margin: 0 auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+    
+    .pointer {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    .active-0,
+    .active-2,
+    .active-4,
+    .active-6 {
+        background: url("http://img002.qufenqi.com/products/98/5a/985a6f8fc18e0f8d208cf425590bde89.png");
+    }
+    
+    .active-1 {
+        background: url("http://img002.qufenqi.com/products/bb/4c/bb4cfdd2f189bc27db065cc1578f94e1.png");
+    }
+    
+    .active-3 {
+        background: url("http://img002.qufenqi.com/products/a8/62/a862140dce49435de7281962d0c807f1.png");
+    }
+    
+    .active-5 {
+        background: url("http://img002.qufenqi.com/products/46/6d/466de5aa05a373f9a612104dd2d3f803.png");
+    }
+    
+    .active-7 {
+        background: url("http://img002.qufenqi.com/products/90/03/9003d19f23801e2d164928957b13a778.png");
+    }
+    
+    .active-0,
+    .active-1,
+    .active-2,
+    .active-3,
+    .active-4,
+    .active-5,
+    .active-6,
+    .active-7 {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    
+    ul {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 20%;
+        left: 3%;
+        list-style-type: none;
+        list-style-position: inside;
+    }
+    
+    li {
+        float: left;
+        width: 28%;
+        height: 22%;
+        margin: 1% 0 0 2.4%;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <a href="index.html">返回首页</a>
+        <a href="squared.html">九宫格抽奖</a>
+        <a href="roll.html">文字滚动抽奖</a>
+        <div class="parent">
+            <img class="picture-img" src="../img/squared-bg.png" alt="" width="100%">
+            <div class="container">
+                <img class="circle" src="../img/squared.png" alt="" width="100%">
+                <ul id="lottery">
+                    <li class="lottery-unit lottery-unit-0"></li>
+                    <li class="lottery-unit lottery-unit-1"></li>
+                    <li class="lottery-unit lottery-unit-2"></li>
+                    <li class="lottery-unit lottery-unit-7"></li>
+                    <li class="lottery-unit lottery-unit-8"></li>
+                    <li class="lottery-unit lottery-unit-3"></li>
+                    <li class="lottery-unit lottery-unit-6"></li>
+                    <li class="lottery-unit lottery-unit-5"></li>
+                    <li class="lottery-unit lottery-unit-4"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+    <script>
+    $(function() {
+        var index = -1, //当前转动到哪个位置，起点位置
+            count = 0, //总共有多少个位置
+            timer = 0, //setTimeout的ID，用clearTimeout清除
+            speed = 20, //初始转动速度
+            times = 0, //转动次数
+            cycle = 45, //转动基本次数：即至少需要转动多少次再进入抽奖环节
+            prize = -1,
+            prize_id = -1,
+            _time = 0; //接口返回中奖位置
+
+        function init(id) {
+            // 初始化，设置转动起点为-1
+            if ($("#" + id).find(".lottery-unit").length > 0) {
+                lottery = $("#" + id);
+                units = lottery.find(".lottery-unit");
+                count = units.length - 1;
+                lottery.find(".lottery-unit-" + index).addClass("active-" + index);
+            };
+        }
+
+        function roll() {
+            var _index = index,
+                _count = count,
+                _lottery = $("#lottery");
+
+            // 当前巧克力块移除高亮样式
+            $(_lottery).find(".lottery-unit-" + _index).removeClass("active-" + _index);
+
+            // 巧克力块位置加一
+            _index++;
+
+            // 如果当前巧克力块为最后一块，则设置下一块从0开始
+            if (_index > _count - 1) {
+                _index = 0;
+            };
+
+            // 下一块添加高亮样式
+            $(_lottery).find(".lottery-unit-" + _index).addClass("active-" + _index);
+
+            // 更新index
+            index = _index;
+        }
+
+        function rolling() {
+            times++;
+            roll();
+            // 当前转动次数大于基本转动次数加10切奖品id与index相等时，停止转动
+            if (times > cycle + 10 && prize == index) {
+                clearTimeout(timer);
+                prize = -1;
+                times = 0;
+                click = false;
+            } else {
+                // 当前转动次数小于基本转动次数，加速转动；如果次数相等时，则给奖品设置为接口返回的奖品，否则减速转动
+                times < cycle ? speed -= 10 : (times == cycle ? prize = prize_id : speed += 20)
+                if (speed < 70) {
+                    speed = 70;
+                };
+                timer = setTimeout(rolling, speed); //循环调用
+            }
+        }
+        var click = false;
+
+        var _m = $('.module-qingrenjie'),
+            _d = window._ && window._.data(_m, {});
+
+
+        init('lottery');
+        $(".lottery-unit-8").click(function() {
+            if (click) { //click控制一次抽奖过程中不能重复点击抽奖按钮，后面的点击不响应
+                return false;
+            } else {
+                click = true; //一次抽奖完成后，设置click为true，可继续抽奖
+                speed = 100;
+                var code = parseInt(Math.random() * 8);
+                // --- `[code描述]`
+                // 1 提额机会  ，2，10元服务费优惠券  3，2元服务费优惠券   4，5元服务费优惠券
+
+                switch (code) {
+                    case 1:
+                        prize_id = 1;
+                        rolling();
+                        break;
+                    case 2:
+                        prize_id = 5;
+                        rolling();
+                        break;
+                    case 3:
+                        prize_id = 7;
+                        rolling();
+                        break;
+                    case 4:
+                        prize_id = 3;
+                        rolling();
+                        break;
+                    default:
+                        prize_id = parseInt(Math.random() * 4) * 2;
+                        rolling();
+                        break;
+                };
+            }
+        });
+    })
+    </script>
+</body>
+
+</html>

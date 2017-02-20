@@ -20,10 +20,18 @@
     <title>转盘抽奖</title>
     <link rel="stylesheet" href="">
     <style type="text/css" media="screen">
+    body {
+        background: #f56;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    
     .parent {
         position: relative;
         top: 100px;
     }
+    
     .container {
         position: absolute;
         left: 11%;
@@ -50,7 +58,7 @@
 <body>
     <div class="wrap">
         <a href="index.html">返回首页</a>
-        <a href="">九宫格抽奖</a>
+        <a href="squared.html">九宫格抽奖</a>
         <a href="roll.html">文字滚动抽奖</a>
         <div class="parent">
             <div class="container">
@@ -95,39 +103,39 @@
                 switch (code) {
                     case 0:
                         circleAllTime(360);
-                        setTimeout(function(){
+                        setTimeout(function() {
                             alert("恭喜您获得提额机会")
                             rotating = false;
-                        },5100)
+                        }, 5100)
                         break;
                     case 1:
                         circleAllTime(76);
-                        setTimeout(function(){
+                        setTimeout(function() {
                             alert("恭喜您获得10元优惠券")
                             rotating = false;
-                        },5100)
+                        }, 5100)
                         break;
                     case 2:
                         circleAllTime(219);
-                        setTimeout(function(){
+                        setTimeout(function() {
                             alert("恭喜您获得2元优惠券")
                             rotating = false;
-                        },5100)
+                        }, 5100)
                         break;
                     case 3:
                         circleAllTime(290);
-                        setTimeout(function(){
+                        setTimeout(function() {
                             alert("恭喜您获得5元优惠券")
                             rotating = false;
-                        },5100)
+                        }, 5100)
                         break;
                     case 4:
                     default:
                         circleAllTime(147);
-                        setTimeout(function(){
+                        setTimeout(function() {
                             alert("谢谢参与~")
                             rotating = false;
-                        },5100)
+                        }, 5100)
                         break;
                 }
             }, 1000);
