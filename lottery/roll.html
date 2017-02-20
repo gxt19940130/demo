@@ -31,10 +31,8 @@
     .screen {
         background: #ff5566;
         color: white;
-        height: 900px;
         text-align: center;
-        font-size: 50px;
-        overflow: hidden; 
+        overflow: hidden;
     }
     
     ul {
@@ -51,6 +49,9 @@
 
 <body>
     <div id="wrap" class="screen">
+        <a href="rotate.html">转盘抽奖</a>
+        <a href="">九宫格抽奖</a>
+        <a href="roll.html">文字滚动抽奖</a>
         <p>按下enter开始，空格暂停</p>
         <ul class="staff-list-ul">
             <li v-for="item in staffList" track-by="$index" v-show="isShow($index)">
@@ -70,11 +71,11 @@ new Vue({
     ready() {
         this.initStaffList();
         var _me = this;
-        $(window).on('keyup',function(e){
-            if(e.keyCode == 13){
+        $(window).on('keyup', function(e) {
+            if (e.keyCode == 13) {
                 _me.startRoll();
             }
-            if(e.keyCode == 32){
+            if (e.keyCode == 32) {
                 _me.stopRoll();
             }
         })
@@ -104,29 +105,29 @@ new Vue({
             this.stop = true;
         },
         // 循环滚动列表
-        listRolling () {
+        listRolling() {
             var _length = this.staffNum,
                 _sum = this.staffList.length,
                 _lis = document.getElementsByTagName("li"),
                 _arr = [];
-            for (var i = 0; i < _length; i++){
+            for (var i = 0; i < _length; i++) {
                 var num = this.getRandom(0, _sum);
                 _arr.indexOf(num) == -1 ? _arr.push(num) : i--;
             }
             this.arr = _arr;
-            window.requestAnimationFrame(()=>{
+            window.requestAnimationFrame(() => {
                 if (this.stop) {
-                    return ;
+                    return;
                 }
                 this.listRolling();
             });
         },
         // 显示循环的列表 
-        isShow (index) {
+        isShow(index) {
             return this.arr.indexOf(index) >= 0;
         },
         // 随机数
-        getRandom (min, max) {
+        getRandom(min, max) {
             return parseInt(Math.random() * (max - min + 1));
         }
     },
