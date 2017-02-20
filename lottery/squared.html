@@ -222,22 +222,38 @@
                     case 1:
                         prize_id = 1;
                         rolling();
+                        setTimeout(function(){
+                            alert("恭喜您获得提额机会")
+                        },7200)
                         break;
                     case 2:
                         prize_id = 5;
                         rolling();
+                        setTimeout(function(){
+                            alert("恭喜您获得10元优惠券")
+                        },7200)
                         break;
                     case 3:
                         prize_id = 7;
                         rolling();
+                        setTimeout(function(){
+                            alert("恭喜您获得2元优惠券")
+                        },5300)
                         break;
                     case 4:
                         prize_id = 3;
                         rolling();
+                        setTimeout(function(){
+                            alert("恭喜您获得5元优惠券")
+                        })
                         break;
                     default:
                         prize_id = parseInt(Math.random() * 4) * 2;
                         rolling();
+                        var _time = [5600, 6200, 6800, 7600][prize_id / 2];
+                        setTimeout(function(){
+                            alert("谢谢参与啦~")
+                        },_time)
                         break;
                 };
             }
